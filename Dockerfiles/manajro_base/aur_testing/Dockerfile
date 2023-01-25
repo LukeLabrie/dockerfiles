@@ -1,7 +1,8 @@
-# manjarolinux docker container for testing easybuild runs
+# manjarolinux docker container for testing aur runs
 FROM manjarolinux/base
 
 # install dependencies for openmc pkgbuild files 
+RUN sudo pacman -Ssy
 RUN sudo pacman -Syu --noconfirm openssl \
                                  rdma-core \
                                  pam \
@@ -19,22 +20,34 @@ RUN sudo pacman -Syu --noconfirm openssl \
                                  make \
                                  gcc-fortran \
                                  python-setuptools \
-                                 yay                       
+                                 yay \
+                                 python-pip \
+                                 libx11 \
+                                 libgl \
+                                 ipython \
+                                 man \
+                                 python-lxml \
+                                 python-scipy \
+                                 python-pandas \
+                                 python-matplotlib \
+                                 python-uncertainties \
+                                 embree \
+                                 libxrender \
+                                 libxcursor \
+                                 libxft \
+                                 libxinerama \
+                                 freecad \
+                                 glu \
+                                 openssh
 
-#RUN useradd --home-dir /home/myuser --create-home --user-group --shell /bin/sh myuser && passwd myuser AlvinWeinberg
-#USER myuser
 
-# RUN yay -Ssy
-# RUN yay -S --noconfirm 	gmsh \
-#                       python-pyparsing \
-#	                    python-cadquery \
- #                       python-numpy \
-  #                      ocp \
-   #                     python-meshio \
-    #                    python-trimesh \
-     #                   python-networkx \
-      #                  cython \
-       #                 python-pytest \
-        #                mmg     
+RUN useradd --home-dir /home/myuser --create-home --user-group --shell /bin/sh -p password myuser 
+RUN usermod -aG wheel myuser
+RUN echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+USER myuser
+
+RUN pip install pytest docutils
+RUN export PATH=/home/myuser/.local/bin:$PATH
+
 
 
