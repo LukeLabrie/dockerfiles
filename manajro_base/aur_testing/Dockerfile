@@ -38,7 +38,8 @@ RUN sudo pacman -Syu --noconfirm openssl \
                                  libxinerama \
                                  freecad \
                                  glu \
-                                 openssh
+                                 openssh \
+                                 vim
 
 
 RUN useradd --home-dir /home/myuser --create-home --user-group --shell /bin/sh -p password myuser 
