@@ -22,4 +22,4 @@ RUN echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 USER myuser
 
 RUN pip install easybuild
-RUN export PATH=$PATH:/home/myuser/.local/bin
+RUN export PATH=$PATH:/home/myuser/.local/bin:/usr/share
