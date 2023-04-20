@@ -1,4 +1,7 @@
 # manjarolinux docker container for testing aur runs
+
+# NOTE: You may need to build and/or run with `--ulimit nofile=1024:10240` in order to avoid hanging on fakeroot 
+
 FROM manjarolinux/base
 
 # install dependencies for openmc pkgbuild files 
