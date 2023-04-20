@@ -1,4 +1,7 @@
 # manjarolinux docker container for testing easybuild runs
+
+# NOTE: You may need to build and/or run with `--ulimit nofile=1024:10240` in order to avoid hanging on fakeroot 
+
 FROM manjarolinux/base
 
 # install osdependencies 
@@ -13,19 +16,10 @@ RUN sudo pacman -Syu --noconfirm openssl \
                                  tcl \
                                  lua
 
-#RUN wget https://sourceforge.net/projects/lmod/files/lua-5.1.4.9.tar.bz2 && \
-#    tar xf lua-X.Y.Z.tar.bz2 && \
-#    cd lua-X.Y.Z && \
-#    ./configure --prefix=/opt/apps/lua/X.Y.Z && \
-#    make; make install && \
-#    cd /opt/apps/lua; ln -s X.Y.Z lua && \
-#    mkdir /usr/local/bin; ln -s /opt/apps/lua/lua/bin/lua /usr/local/bin
-
-
-RUN yay -Syu spack
-
-RUN useradd --home-dir /home/myuser --create-home --user-group --shell /bin/sh myuser 
+RUN useradd --home-dir /home/myuser --create-home --user-group --shell /bin/sh -p password myuser 
+RUN usermod -aG wheel myuser
+RUN echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 USER myuser
 
-# write CMD option to set up the easybuild configuration for testing
-CMD ["pip install easybuild","pip uninstall easybuild-framework']
+RUN pip install easybuild
+RUN export PATH=$PATH:/home/myuser/.local/bin
