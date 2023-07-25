@@ -2,9 +2,15 @@
 
 # NOTE: You may need to build and/or run with `--ulimit nofile=1024:10240` in order to avoid hanging on fakeroot 
 
-FROM manjarolinux/base
+FROM archlinux
 
 # install dependencies for openmc pkgbuild files 
+RUN pacman -Syy
+RUN pacman -S --noconfirm sudo
+RUN useradd --home-dir /home/myuser --create-home --user-group --shell /bin/sh -p password myuser 
+RUN usermod -aG wheel myuser
+RUN echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 RUN sudo pacman -Syy
 RUN sudo pacman -Syu --noconfirm openssl \
                                  rdma-core \
@@ -44,12 +50,6 @@ RUN sudo pacman -Syu --noconfirm openssl \
                                  vim
 
 
-RUN useradd --home-dir /home/myuser --create-home --user-group --shell /bin/sh -p password myuser 
-RUN usermod -aG wheel myuser
-RUN echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 USER myuser
-
 RUN export PATH=/home/myuser/.local/bin:$PATH
-
-
-

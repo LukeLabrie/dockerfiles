@@ -11,16 +11,17 @@ RUN usermod -aG wheel myuser
 USER myuser
 
 # installing required packages
-RUN sudo apt-get install --yes lmod \\
-                               pip \\
-                               vim \\
-                               libssl-dev \\
-                               git \\
-                               binutils \\
-                               file \\
-                               unzip
+RUN sudo apt-get install --yes lmod \
+                               pip \
+                               vim \
+                               libssl-dev \
+                               git \
+                               binutils \
+                               file \
+                               unzip\
+                               libibverbs-dev
 RUN pip install easybuild
 
 # adding paths to easybuild, lmod, & file executables
 # note, lmod version number is hardcoded in its path, may need to adjust
-RUN export PATH=$PATH:/home/myuser/.local/bin:/usr/share/lmod/6.6/libexec/:/usr/lib/apt/methods
+RUN echo "export PATH=$PATH:/home/myuser/.local/bin:/usr/share/lmod/6.6/libexec/:/usr/lib/apt/methods" >> ~/.bashrc
