@@ -19,7 +19,8 @@ RUN sudo apt-get install --yes lmod \
                                binutils \
                                file \
                                unzip\
-                               libibverbs-dev
+                               libibverbs-dev \
+                               python3-venv
 RUN pip install easybuild
 
 # adding paths to easybuild, lmod, & file executables
